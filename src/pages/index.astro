@@ -1,11 +1,70 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
+import Planet from "../components/Planet.astro";
+import Layout from "../layouts/Layout.astro";
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+import aboutMe from "../assets/is_aboutme.png";
+import community from "../assets/is_community.png";
+import connection from "../assets/is_connection.png";
+import consultation from "../assets/is_consultation.png";
+import culture from "../assets/is_culture.png";
+import logo from "../assets/is_logo.png";
 ---
 
 <Layout>
-	<Welcome />
+  <div id="planet-container">
+    <Planet
+      id="about-planet"
+      src={aboutMe}
+      width={400}
+      height={400}
+      angle={Math.PI / 3}
+    />
+    <Planet
+      id="community-planet"
+      src={community}
+      width={150}
+      height={150}
+      angle={(2 * Math.PI) / 3}
+    />
+    <Planet
+      id="connection-planet"
+      src={connection}
+      width={150}
+      height={150}
+      angle={Math.PI}
+    />
+    <Planet
+      id="consultation-planet"
+      src={consultation}
+      width={150}
+      height={150}
+      angle={(4 * Math.PI) / 3}
+    />
+    <Planet
+      id="culture-planet"
+      src={culture}
+      width={150}
+      height={150}
+      angle={2 * Math.PI}
+    />
+    <Planet
+      id="logo-planet"
+      src={logo}
+      width={500}
+      height={500}
+      angle={(5 * Math.PI) / 3}
+    />
+  </div>
 </Layout>
+
+<style>
+  #planet-container {
+    z-index: 100;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+  }
+</style>

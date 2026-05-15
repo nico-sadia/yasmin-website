@@ -1,0 +1,86 @@
+---
+import type { ImageMetadata } from "astro";
+import { Image } from "astro:assets";
+
+interface Props {
+  id: string;
+  src: ImageMetadata;
+  width: number;
+  height: number;
+  angle: number;
+}
+
+const { id, src, width, height, angle } = Astro.props;
+---
+
+<planet-bubble class="planet-wrapper" data-id={id} data-angle={angle}>
+  <Image
+    id={id}
+    class="planet"
+    src={src}
+    alt="Planet button"
+    width={width}
+    height={height}
+  />
+</planet-bubble>
+
+<style>
+  .planet-wrapper {
+    position: absolute;
+  }
+
+  .planet {
+    padding: -40px;
+    transition: all 0.35s ease-in-out;
+  }
+
+  .planet:hover {
+    transform: scale(1.2);
+    cursor: pointer;
+  }
+</style>
+
+<script>
+  class Planet extends HTMLElement {
+    connectedCallback() {
+      let angle = parseFloat(this.dataset.angle!);
+      let rotationAngle = 0;
+      const rotationDirection = Math.random() > 0.5 ? -1 : 1;
+      const planet = this;
+      const radiusX = 650;
+      const radiusY = 275;
+
+      planet.style.zIndex = String(Math.round(1000 / planet.offsetWidth));
+
+      planet.addEventListener("mouseover", () => {
+        (window as any).orbitPaused = true;
+      });
+      planet.addEventListener("mouseout", () => {
+        (window as any).orbitPaused = false;
+      });
+
+      const orbitPlanet = () => {
+        if (!(window as any).orbitPaused) {
+          const centerX = window.innerWidth / 2;
+          const centerY = window.innerHeight / 2;
+          let x = centerX + radiusX * Math.cos(angle);
+          let y = centerY + radiusY * Math.sin(angle);
+
+          angle += 0.0025;
+          rotationAngle += 0.5 * rotationDirection;
+          console.log(rotationAngle);
+
+          planet.style.transform = `rotate(${rotationAngle}deg)`;
+          planet.style.left = x - planet.offsetWidth / 2 + "px";
+          planet.style.top = y - planet.offsetHeight / 2 + "px";
+        }
+
+        requestAnimationFrame(orbitPlanet);
+      };
+
+      requestAnimationFrame(orbitPlanet);
+    }
+  }
+
+  customElements.define("planet-bubble", Planet);
+</script>

@@ -1,0 +1,102 @@
+---
+import { Image } from "astro:assets";
+import burgerIcon from "../assets/is_menuburger.png";
+import logo from "../assets/is_logo.png";
+---
+
+<div class="menu-container">
+  <button id="menu-open" class="menu-button">
+    <Image src={burgerIcon} alt="Open Menu" width={120} height={120} />
+  </button>
+  <aside id="sidebar" class="sidebar">
+    <div id="sidebar-header">
+      <Image src={logo} alt="Logo" width={120} height={120} />
+      <button id="menu-close" class="menu-button">
+        <Image src={burgerIcon} alt="Open Menu" width={40} height={40} />
+      </button>
+    </div>
+    <ul>
+      <li><a href="/">Home</a></li>
+      <li><a href="/about">About</a></li>
+      <li><a href="/contact">Contact</a></li>
+    </ul>
+  </aside>
+</div>
+
+<style>
+  h1 {
+    font-size: x-large;
+    color: var(--text);
+  }
+
+  #sidebar-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .menu-button:hover {
+    transform: scale(1.05);
+  }
+
+  .menu-button {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    position: relative;
+    transition: all 0.2s ease-in-out;
+  }
+
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: -250px;
+    width: 250px;
+    height: 100vh;
+    background-color: #1a1a1a;s
+    color: white;
+    transition: transform 0.25s ease-in-out;
+    padding: 1.5rem;
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+  }
+  li {
+    margin-bottom: 1em;
+  }
+  a {
+    color: var(--text);
+    text-decoration: none;
+    font-size: 1.2em;
+  }
+
+  a:hover {
+    color: #aaa;
+  }
+
+  .sidebar.open {
+    transform: translateX(250px);
+  }
+</style>
+
+<script>
+  const openBtn = document.getElementById("menu-open");
+  const closeBtn = document.getElementById("menu-close");
+  const sidebar = document.getElementById("sidebar");
+
+  if (openBtn && sidebar && closeBtn) {
+    openBtn.addEventListener("click", () => {
+      sidebar.classList.toggle("open");
+    });
+
+    closeBtn.addEventListener("click", () => {
+      sidebar.classList.remove("open");
+    });
+  }
+</script>
